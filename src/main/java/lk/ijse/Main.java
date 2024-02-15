@@ -57,7 +57,7 @@ public class Main {
         System.out.println("Number of books updated: " + rowCount);
 
         // 03. Delete author and associated books
-       // deleteAuthorAndBooks(authorOne);
+        deleteAuthorAndBooks(authorOne.getId());
 
 
 
@@ -92,9 +92,16 @@ public class Main {
         session.close();
     }
 
-    private static void deleteAuthorAndBooks(Author author) {
+    private static void deleteAuthorAndBooks(String authorID) {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+        Author author=session.get(Author.class,authorID);
 
+        if(author!=null){
+            session.delete(author);
+        }
 
-   /*thama naaa*/
+        transaction.commit();
+        session.close();
     }
 }
