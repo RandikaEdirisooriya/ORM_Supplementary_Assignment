@@ -15,6 +15,7 @@ public class Main {
         Author authorOne = new Author();
         authorOne.setId("A001");
         authorOne.setName("Martin Wickramasinghe");
+        authorOne.setCountry("Srilanka");
 
         Book bookOne = new Book();
         bookOne.setId("B001");
@@ -38,10 +39,10 @@ public class Main {
         Transaction transaction = session.beginTransaction();
 
         // Save author and books
-       /* session.save(authorOne);
+      session.save(authorOne);
         for (Book book : books) {
             session.save(book);
-        }*/
+        }
 
         // 01. HQL to get books published after 2010
         String hql = "FROM Book b WHERE b.publicationYear > 2010";
@@ -84,7 +85,25 @@ public class Main {
 
 
 
+/*6. Write an HQL query using named parameters to retrieve books written by authors from a
+specific country*/
+        String hqlcounty = "SELECT b FROM Book b JOIN b.author a WHERE a.Country = :authorCountry";
+        List<Book> bookc = session.createQuery(hqlcounty)
+                .setParameter("authorCountry", "Srilanka")
+                .list();
 
+        for (Book book : bookc) {
+            System.out.println("Title: " + book.getTitle() + ", Author: " + book.getAuthor().getName());
+        }
+
+
+
+        String hqlavg = "SELECT a FROM Author a WHERE size(a.books) > (SELECT AVG(size(b.books)) FROM Author b)";
+        List<Author> specialAuthors = session.createQuery(hqlavg, Author.class).list();
+
+        for (Author author : specialAuthors) {
+            System.out.println("Author: " + author.getName());
+        }
 
 
 

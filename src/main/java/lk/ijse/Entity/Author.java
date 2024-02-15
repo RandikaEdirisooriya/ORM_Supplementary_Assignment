@@ -15,18 +15,19 @@ public class Author {
     @Id
     private String id;
     private String name;
+    private String Country;
 
+    public Author(String id, String name, String country, List<Book> books) {
+        this.id = id;
+        this.name = name;
+        Country = country;
+        this.books = books;
+    }
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Book> books;
 
     public Author() {
-    }
-
-    public Author(String id, String name, List<Book> books) {
-        this.id = id;
-        this.name = name;
-        this.books = books;
     }
 
     public String getId() {
@@ -45,6 +46,14 @@ public class Author {
         this.name = name;
     }
 
+    public String getCountry() {
+        return Country;
+    }
+
+    public void setCountry(String country) {
+        Country = country;
+    }
+
     public List<Book> getBooks() {
         return books;
     }
@@ -53,4 +62,13 @@ public class Author {
         this.books = books;
     }
 
+    @Override
+    public String toString() {
+        return "Author{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", Country='" + Country + '\'' +
+                ", books=" + books +
+                '}';
+    }
 }
